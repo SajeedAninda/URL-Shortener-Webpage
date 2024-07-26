@@ -1,9 +1,10 @@
 import React from 'react';
 import "./stats.css"
+import AdvancedStats from './AdvancedStats';
 
 const Statistics = () => {
     return (
-        <div className='bg-[#f0f1f6] pt-40 pb-24 mt-40 relative'>
+        <div className='bg-[#f0f1f6] pt-48 pb-24 mt-40 relative'>
             <div class="inputBox w-[80%] py-12 px-16 bg-[#3b3054] rounded-xl mx-auto absolute -top-20 left-1/2 transform -translate-x-1/2">
                 <form className='flex gap-6'>
                     <input className='w-full py-4 rounded-xl bg-white font-semibold text-lg px-6 text-[#9E9AA7]' type="text" placeholder='Shorten a link here' />
@@ -13,6 +14,8 @@ const Statistics = () => {
                     </button>
                 </form>
             </div>
+
+            <AdvancedStats></AdvancedStats>
         </div>
     );
 };
