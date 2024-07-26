@@ -1,0 +1,6 @@
+.boostBg{
+    background-image: url('../assets/bg-boost-desktop.svg');
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center center; 
+}
