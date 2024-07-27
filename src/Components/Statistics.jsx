@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import "./stats.css";
 import AdvancedStats from './AdvancedStats';
+import { MutatingDots } from 'react-loader-spinner';
 
 const Statistics = () => {
     const [emptyInput, setEmptyInput] = useState(false);
     const [shortenedLink, setShortenedLink] = useState('');
     const [actualLink, setActualLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [copied, setCopied] = useState(false); // New state for button text and color
+    const [copied, setCopied] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleInput = async (e) => {
         e.preventDefault();
@@ -20,6 +22,7 @@ const Statistics = () => {
         } else {
             setEmptyInput(false);
             setErrorMessage('');
+            setLoading(true); // Start loading
             try {
                 const response = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(inputLink)}`, {
                     method: 'GET',
@@ -38,6 +41,8 @@ const Statistics = () => {
                 }
             } catch (error) {
                 setErrorMessage('Error: ' + error.message);
+            } finally {
+                setLoading(false); // Stop loading
             }
         }
     };
@@ -46,7 +51,7 @@ const Statistics = () => {
         if (shortenedLink) {
             navigator.clipboard.writeText(shortenedLink).then(() => {
                 setCopied(true);
-                setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+                setTimeout(() => setCopied(false), 2000);
             }).catch((error) => {
                 console.error('Failed to copy: ', error);
             });
@@ -84,8 +89,24 @@ const Statistics = () => {
                 </form>
             </div>
 
-            {shortenedLink &&
-                <div className='w-[80%] mx-auto pt-28 mt-4'>
+            {loading &&
+                <div className='flex justify-center items-center pt-32'>
+                    <MutatingDots
+                        visible={true}
+                        height="100"
+                        width="100"
+                        color="#3b3054"
+                        secondaryColor="#2acfcf"
+                        radius="12.5"
+                        ariaLabel="mutating-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
+            }
+
+            {shortenedLink && !loading &&
+                <div className='w-[80%] mx-auto pt-32 mt-4'>
                     <div className='w-full bg-white py-5 rounded-lg px-5 flex justify-between items-center'>
                         <h3 className='text-[#35323E] text-[15px] font-semibold w-[65%]'>
                             {actualLink}
