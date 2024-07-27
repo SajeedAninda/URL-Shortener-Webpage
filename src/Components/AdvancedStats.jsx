@@ -6,11 +6,11 @@ import customizableIcon from "../assets/icon-fully-customizable.svg";
 const AdvancedStats = () => {
     return (
         <div>
-            <div className='flex flex-col justify-center items-center  pt-48 '>
-                <h1 className='text-[40px] text-[#35323E] font-bold'>
+            <div className='flex flex-col justify-center items-center  pt-48 w-[80%] mx-auto'>
+                <h1 className='text-[40px] text-[#35323E] font-bold text-center'>
                     Advanced Statistics
                 </h1>
-                <p className='text-[18px] font-medium text-[#9E9AA7] mt-3 w-[40%] mx-auto text-center'>
+                <p className='text-[18px] font-medium text-[#9E9AA7] mt-3 w-[80%] lg:w-[40%] mx-auto text-center'>
                     Track how your links are performing across the web with our advanced statistics dashboard.
                 </p>
             </div>
