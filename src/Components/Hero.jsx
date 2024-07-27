@@ -4,9 +4,9 @@ import illustration from "../assets/illustration-working.svg"
 const Hero = () => {
     return (
         <div className='heroDiv relative overflow-hidden'>
-            <div className='h-[80vh] w-[80%] mx-auto flex justify-between items-center'>
-                <div className="textDiv flex-1">
-                    <h1 className='text-[70px] text-[#35323E] font-bold leading-[80px]'>
+            <div className='lg:h-[80vh] w-[90%] lg:w-[80%] mx-auto flex flex-col-reverse lg:flex-row justify-between items-center'>
+                <div className="textDiv flex-1 flex justify-center items-center flex-col text-center mt-10 lg:mt-0 lg:justify-start lg:items-start lg:text-left">
+                    <h1 className='text-[40px] lg:text-[70px] text-[#35323E] font-bold lg:leading-[80px]'>
                         More than just <br /> shorter links
                     </h1>
 
@@ -19,7 +19,7 @@ const Hero = () => {
                     </button>
                 </div>
 
-                <div className='imgDiv flex-1 absolute -right-32 overflow-hidden'>
+                <div className='imgDiv flex-1 lg:absolute lg:-right-32 overflow-hidden'>
                     <img className='overflow-hidden' src={illustration} alt="" />
                 </div>
             </div>
