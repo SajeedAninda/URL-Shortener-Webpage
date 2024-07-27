@@ -1,10 +1,17 @@
-import React from 'react';
-import logo from "../assets/logo.svg"
+import React, { useState } from 'react';
+import logo from "../assets/logo.svg";
+import menuIcon from "../assets/icon-menu.svg";
 
 const Navbar = () => {
+    let [showMenu, setShowMenu] = useState(false);
+
+    let handleMenu = () => {
+        setShowMenu(!showMenu)
+    }
+
     return (
         <div>
-            <div className='h-[20vh] flex justify-between items-center w-[80%] mx-auto'>
+            <div className='h-[20vh] justify-between items-center w-[80%] mx-auto hidden lg:flex'>
                 <div className='flex gap-8 items-center'>
                     <img className='w-[120px] cursor-pointer' src={logo} alt="" />
 
@@ -25,6 +32,37 @@ const Navbar = () => {
                     </button>
                 </div>
             </div>
+
+
+
+
+            <div className='h-[20vh] justify-between items-center w-[80%] mx-auto flex lg:hidden'>
+                <img className='w-[120px] cursor-pointer' src={logo} alt="" />
+                <button onClick={handleMenu}>
+                    <img src={menuIcon} alt="" />
+                </button>
+            </div>
+
+            {
+                showMenu &&
+
+                <div className='bg-[#3b3054] w-[90%] mx-auto h-fit rounded-2xl menuDiv lg:hidden'>
+                    <ul className='text-white text-center p-8 flex justify-center items-center flex-col gap-6'>
+                        <li className='hover:text-[#35323E] cursor-pointer text-lg font-bold'>Features</li>
+                        <li className='hover:text-[#35323E] cursor-pointer text-lg font-bold'>Pricing</li>
+                        <li className='hover:text-[#35323E] cursor-pointer text-lg font-bold'>Resources</li>
+                    </ul>
+
+                    <hr className='border border-gray-600 w-[90%] mx-auto'/>
+
+                    <div className='text-center p-8 flex justify-center items-center flex-col gap-6'>
+                        <p className='text-white hover:text-[#35323E] cursor-pointer text-lg font-bold'>Login</p>
+                        <button className='bg-[#2ACFCF] w-full px-5 py-3 rounded-[40px] text-white text-[15px] font-bold hover:bg-[#2acfcfb4] transition-colors delay-75 ease-in'>
+                            Sign Up
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
     );
 };
