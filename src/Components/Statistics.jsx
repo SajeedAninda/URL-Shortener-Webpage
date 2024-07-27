@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./stats.css";
 import AdvancedStats from './AdvancedStats';
 import { MutatingDots } from 'react-loader-spinner';
@@ -8,8 +8,14 @@ const Statistics = () => {
     const [shortenedLink, setShortenedLink] = useState('');
     const [actualLink, setActualLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [copied, setCopied] = useState(false);
+    const [copiedIndex, setCopiedIndex] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [storedLinks, setStoredLinks] = useState([]);
+
+    useEffect(() => {
+        const links = JSON.parse(localStorage.getItem('shortenedLinks')) || [];
+        setStoredLinks(links);
+    }, []);
 
     const handleInput = async (e) => {
         e.preventDefault();
@@ -22,7 +28,14 @@ const Statistics = () => {
         } else {
             setEmptyInput(false);
             setErrorMessage('');
-            setLoading(true); // Start loading
+            
+            const existingLink = storedLinks.find(link => link.original === inputLink);
+            if (existingLink) {
+                setErrorMessage('This link has already been shortened.');
+                return;
+            }
+
+            setLoading(true);
             try {
                 const response = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(inputLink)}`, {
                     method: 'GET',
@@ -31,8 +44,12 @@ const Statistics = () => {
                 if (response.ok) {
                     const data = await response.json();
                     if (data.shorturl) {
+                        const newLink = { original: inputLink, shortened: data.shorturl };
                         setShortenedLink(data.shorturl);
                         setActualLink(inputLink);
+                        const updatedLinks = [newLink, ...storedLinks];
+                        setStoredLinks(updatedLinks);
+                        localStorage.setItem('shortenedLinks', JSON.stringify(updatedLinks));
                     } else {
                         setErrorMessage('Unexpected response format');
                     }
@@ -42,20 +59,25 @@ const Statistics = () => {
             } catch (error) {
                 setErrorMessage('Error: ' + error.message);
             } finally {
-                setLoading(false); // Stop loading
+                setLoading(false);
             }
         }
     };
 
-    const handleCopy = () => {
-        if (shortenedLink) {
-            navigator.clipboard.writeText(shortenedLink).then(() => {
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
+    const handleCopy = (index, link) => {
+        if (link) {
+            navigator.clipboard.writeText(link).then(() => {
+                setCopiedIndex(index);
+                setTimeout(() => setCopiedIndex(null), 2000);
             }).catch((error) => {
                 console.error('Failed to copy: ', error);
             });
         }
+    };
+
+    const handleClearAll = () => {
+        localStorage.removeItem('shortenedLinks');
+        setStoredLinks([]);
     };
 
     return (
@@ -105,24 +127,33 @@ const Statistics = () => {
                 </div>
             }
 
-            {shortenedLink && !loading &&
+            {storedLinks.length > 0 && !loading &&
                 <div className='w-[80%] mx-auto pt-32 mt-4'>
-                    <div className='w-full bg-white py-5 rounded-lg px-5 flex justify-between items-center'>
-                        <h3 className='text-[#35323E] text-[15px] font-semibold w-[65%]'>
-                            {actualLink}
-                        </h3>
-                        <div className='flex gap-5 justify-end items-center w-[35%]'>
-                            <h3 className='text-[15px] text-[#2acfcf] font-semibold'>
-                                <a href={shortenedLink} target="_blank" rel="noopener noreferrer" className='text-blue-500 underline'>{shortenedLink}</a>
+                    {storedLinks.map((link, index) => (
+                        <div key={index} className='w-full bg-white py-5 rounded-lg px-5 flex justify-between items-center mb-4'>
+                            <h3 className='text-[#35323E] text-[15px] font-semibold w-[65%]'>
+                                {link.original}
                             </h3>
-
-                            <button
-                                onClick={handleCopy}
-                                className={`w-[20%] px-3 py-2 rounded-md text-white text-[13px] font-bold ${copied ? 'bg-[#3b3054]' : 'bg-[#2ACFCF]'} transition-colors delay-75 ease-in`}
-                            >
-                                {copied ? 'Copied!' : 'Copy'}
-                            </button>
+                            <div className='flex gap-5 justify-end items-center w-[35%]'>
+                                <h3 className='text-[15px] text-[#2acfcf] font-semibold'>
+                                    <a href={link.shortened} target="_blank" rel="noopener noreferrer" className='text-blue-500 underline'>{link.shortened}</a>
+                                </h3>
+                                <button
+                                    onClick={() => handleCopy(index, link.shortened)}
+                                    className={`w-[20%] px-3 py-2 rounded-md text-white text-[13px] font-bold ${copiedIndex === index ? 'bg-[#3b3054]' : 'bg-[#2ACFCF]'} transition-colors delay-75 ease-in`}
+                                >
+                                    {copiedIndex === index ? 'Copied!' : 'Copy'}
+                                </button>
+                            </div>
                         </div>
+                    ))}
+                    <div className='flex justify-end'>
+                        <button
+                            onClick={handleClearAll}
+                            className='bg-red-500 text-white px-6 py-2 rounded-md font-bold hover:bg-red-700 transition-colors delay-75 ease-in'
+                        >
+                            Clear All
+                        </button>
                     </div>
                 </div>
             }
