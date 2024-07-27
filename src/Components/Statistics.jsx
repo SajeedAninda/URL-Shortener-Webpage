@@ -128,19 +128,19 @@ const Statistics = () => {
             }
 
             {storedLinks.length > 0 && !loading &&
-                <div className='w-[80%] mx-auto pt-32 mt-4'>
+                <div className='w-[80%] mx-auto pt-44 lg:pt-32 mt-4'>
                     {storedLinks.map((link, index) => (
-                        <div key={index} className='w-full bg-white py-5 rounded-lg px-5 flex justify-between items-center mb-4'>
-                            <h3 className='text-[#35323E] text-[15px] font-semibold w-[65%]'>
+                        <div key={index} className='w-full bg-white py-5 rounded-lg px-5 flex flex-col lg:flex-row justify-between items-center mb-4 gap-4 lg:gap-0'>
+                            <h3 className='text-[#35323E] text-[15px] font-semibold w-full lg:w-[65%]'>
                                 {link.original}
                             </h3>
-                            <div className='flex gap-5 justify-end items-center w-[35%]'>
+                            <div className='flex flex-col lg:flex-row gap-5 justify-end items-center w-full lg:w-[35%]'>
                                 <h3 className='text-[15px] text-[#2acfcf] font-semibold'>
                                     <a href={link.shortened} target="_blank" rel="noopener noreferrer" className='text-blue-500 underline'>{link.shortened}</a>
                                 </h3>
                                 <button
                                     onClick={() => handleCopy(index, link.shortened)}
-                                    className={`w-[20%] px-3 py-2 rounded-md text-white text-[13px] font-bold ${copiedIndex === index ? 'bg-[#3b3054]' : 'bg-[#2ACFCF]'} transition-colors delay-75 ease-in`}
+                                    className={`w-full lg:w-[20%] px-3 py-2 rounded-md text-white text-[13px] font-bold ${copiedIndex === index ? 'bg-[#3b3054]' : 'bg-[#2ACFCF]'} transition-colors delay-75 ease-in`}
                                 >
                                     {copiedIndex === index ? 'Copied!' : 'Copy'}
                                 </button>
