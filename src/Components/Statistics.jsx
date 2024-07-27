@@ -82,9 +82,9 @@ const Statistics = () => {
 
     return (
         <div className='bg-[#f0f1f6] pb-24 mt-40 relative'>
-            <div className="inputBox w-[80%] py-12 px-16 bg-[#3b3054] rounded-xl mx-auto absolute -top-20 left-1/2 transform -translate-x-1/2">
+            <div className="inputBox w-[90%] lg:w-[80%] py-12 px-6 lg:px-16 bg-[#3b3054] rounded-xl mx-auto absolute -top-20 left-1/2 transform -translate-x-1/2">
                 <form onSubmit={handleInput} className='flex flex-col gap-2'>
-                    <div className='flex gap-6'>
+                    <div className='flex flex-col lg:flex-row gap-6'>
                         <input
                             type="text"
                             name='link'
@@ -93,7 +93,7 @@ const Statistics = () => {
                         />
                         <button
                             type='submit'
-                            className={`w-[20%] bg-[#2ACFCF] px-8 py-2 rounded-xl text-white text-lg font-bold hover:bg-[#60f0f0ec] transition-colors delay-75 ease-in`}
+                            className={`w-full lg:w-[20%] bg-[#2ACFCF] px-8 py-2 rounded-xl text-white text-lg font-bold hover:bg-[#60f0f0ec] transition-colors delay-75 ease-in`}
                         >
                             Shorten It!
                         </button>
