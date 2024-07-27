@@ -34,7 +34,7 @@ const Navbar = () => {
             <div className='h-[20vh] justify-between items-center w-[80%] mx-auto flex lg:hidden'>
                 <img className='w-[120px] cursor-pointer' src={logo} alt="" />
                 <button onClick={handleMenu}>
-                    <img src={menuIcon} alt="" />
+                    <img className='w-[40px]' src={menuIcon} alt="" />
                 </button>
             </div>
 
