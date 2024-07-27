@@ -6,7 +6,7 @@ import customizableIcon from "../assets/icon-fully-customizable.svg";
 const AdvancedStats = () => {
     return (
         <div>
-            <div className='flex flex-col justify-center items-center'>
+            <div className='flex flex-col justify-center items-center  pt-48 '>
                 <h1 className='text-[40px] text-[#35323E] font-bold'>
                     Advanced Statistics
                 </h1>
